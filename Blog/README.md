@@ -1,0 +1,57 @@
+# Blog Post App
+
+This is a simple blog post app built with Node.js, Express.js, and MongoDB Atlas.
+
+## Prerequisites
+
+Before running the app, make sure you have the following installed:
+
+- Node.js (version X.X.X)
+- MongoDB Atlas account
+
+## Getting Started
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/zee-ham-su/portfolio-backend.git
+    ```
+
+2. Install the dependencies:
+
+    ```bash
+    cd blog
+    npm install
+    ```
+
+3. Configure the MongoDB Atlas connection:
+
+    - Create a `.env` file in the root directory.
+    - Add the following environment variables:
+
+      ```plaintext
+      MONGODB_URI=your-mongodb-atlas-uri
+      ```
+
+4. Start the server:
+
+    ```bash
+    npm start
+    ```
+
+5. Open your browser and navigate to `http://localhost:3000` to access the app.
+
+## Features
+
+- User authentication (signup, login, logout)
+- Create, read, update, and delete blog posts
+- Comment on blog posts
+- Like and dislike blog posts
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
