@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/blog-posts', blogPostRoutes);
+app.use('/blog-posts', PostRoutes);
 app.use('/comments', commentRoutes);
 
 // Connect to MongoDB
