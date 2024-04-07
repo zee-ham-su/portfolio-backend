@@ -2,7 +2,9 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-// Controller actions
+
+// In-memory token blacklist
+const tokenBlacklist = new Set();
 
 const UserController = {
     registerUser: async (req, res) => {
@@ -13,9 +15,6 @@ const UserController = {
 
             // Create JWT token
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-            user.token = token;
-
-            await user.save();
 
             res.status(201).json({ message: 'User registered successfully', token });
         } catch (error) {
@@ -23,7 +22,6 @@ const UserController = {
         }
     },
 
-    // Get all users
     getAllUsers: async (req, res) => {
         try {
             const users = await User.find();
@@ -33,58 +31,65 @@ const UserController = {
         }
     },
 
-    // Get a single user by ID
     getUserById: async (req, res) => {
         try {
             const user = await User.findById(req.params.id);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }
-            res.json(user);
-            res.status(500).json({ error: 'Internal server error' });
+            res.json(user); // Remove unnecessary res.status(500) line
         } catch (error) {
+            res.status(500).json({ error: 'Internal server error' });
         }
     },
 
-// Login user
     loginUser: async (req, res) => {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email });
-            console.log(email, password, user);
 
             if (!user) {
                 return res.status(401).json({ error: 'Email not valid' });
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            console.log(isPasswordValid);
 
             if (!isPasswordValid) {
                 return res.status(401).json({ error: 'Password not valid' });
             }
           
-            // return JWT token stored in the user object
-            res.json({ message: 'User logged in successfully', token: user.token});
+            res.json({ message: 'User logged in successfully', token: user.token });
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
     },
 
-    // Update a user by ID
+    logoutUser: async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            tokenBlacklist.add(token); // Add token to blacklist
+            res.json({ message: 'User logged out successfully' });
+        } catch (error) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    },
+
     updateUserById: async (req, res) => {
         try {
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const { userId } = req.params;
+            const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
             if (!updatedUser) {
                 return res.status(404).json({ error: 'User not found' });
             }
-            res.json(updatedUser);
+            
+            const token = jwt.sign({ userId }, process.env.JWT_SECRET);
+
+            res.json({ message: 'Password updated successfully', token });
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
     },
 
-    // Delete a user by ID
     deleteUserById: async (req, res) => {
         try {
             const deletedUser = await User.findByIdAndDelete(req.params.id);
@@ -98,5 +103,4 @@ const UserController = {
     }
 };
 
-// Export controller methods
 module.exports = UserController;

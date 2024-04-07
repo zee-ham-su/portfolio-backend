@@ -8,6 +8,9 @@ router.post('/register', UserController.registerUser);
 // Route to login a user
 router.post('/login', UserController.loginUser);
 
+// Logout route
+router.post('/logout', UserController.logoutUser);
+
 // Route to get all users
 router.get('/', UserController.getAllUsers);
 
