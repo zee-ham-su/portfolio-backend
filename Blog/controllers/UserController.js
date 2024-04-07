@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 // Controller actions
 
 const UserController = {
@@ -44,6 +46,36 @@ const UserController = {
             const newUser = new User(req.body);
             const savedUser = await newUser.save();
             res.status(201).json(savedUser);
+        } catch (error) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+        },
+
+
+// Login user
+    loginUser: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+            console.log(email, password, user);
+
+            if (!user) {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            console.log(isPasswordValid);
+
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
+            console.log(process.env.JWT_SECRET);
+
+            // Create JWT token
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            console.log(token);
+
+            res.json({ token });
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
