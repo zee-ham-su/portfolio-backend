@@ -61,13 +61,11 @@ const UserController = {
             if (!isPasswordValid) {
                 return res.status(401).json({ error: 'Invalid email or password' });
             }
-            console.log(process.env.JWT_SECRET);
-
             // Return existing JWT token generated during registration
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET,);
 
 
-            res.json({ token });
+            res.json({ message: 'User logged in successfully', token});
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
