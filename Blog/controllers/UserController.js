@@ -10,10 +10,12 @@ const UserController = {
             const { username, email, password } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = new User({ username, email, password: hashedPassword });
-            await user.save();
 
             // Create JWT token
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+            user.token = token;
+
+            await user.save();
 
             res.status(201).json({ message: 'User registered successfully', token });
         } catch (error) {
@@ -52,20 +54,18 @@ const UserController = {
             console.log(email, password, user);
 
             if (!user) {
-                return res.status(401).json({ error: 'Invalid email or password' });
+                return res.status(401).json({ error: 'Email not valid' });
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
             console.log(isPasswordValid);
 
             if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid email or password' });
+                return res.status(401).json({ error: 'Password not valid' });
             }
-            // Return existing JWT token generated during registration
-            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET,);
-
-
-            res.json({ message: 'User logged in successfully', token});
+          
+            // return JWT token stored in the user object
+            res.json({ message: 'User logged in successfully', token: user.token});
         } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
         }
