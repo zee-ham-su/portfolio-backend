@@ -11,7 +11,11 @@ const UserController = {
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = new User({ username, email, password: hashedPassword });
             await user.save();
-            res.status(201).json({ message: 'User registered successfully' });
+
+            // Create JWT token
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
+            res.status(201).json({ message: 'User registered successfully', token });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -35,22 +39,10 @@ const UserController = {
                 return res.status(404).json({ error: 'User not found' });
             }
             res.json(user);
-        } catch (error) {
             res.status(500).json({ error: 'Internal server error' });
+        } catch (error) {
         }
     },
-
-    // Create a new user
-    createUser: async (req, res) => {
-        try {
-            const newUser = new User(req.body);
-            const savedUser = await newUser.save();
-            res.status(201).json(savedUser);
-        } catch (error) {
-            res.status(500).json({ error: 'Internal server error' });
-        }
-        },
-
 
 // Login user
     loginUser: async (req, res) => {
@@ -71,9 +63,9 @@ const UserController = {
             }
             console.log(process.env.JWT_SECRET);
 
-            // Create JWT token
-            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            console.log(token);
+            // Return existing JWT token generated during registration
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET,);
+
 
             res.json({ token });
         } catch (error) {
