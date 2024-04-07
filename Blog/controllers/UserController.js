@@ -73,16 +73,37 @@ const UserController = {
 
     // Update a user by ID
     updateUserById: async (req, res) => {
-        try {
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-            if (!updatedUser) {
-                return res.status(404).json({ error: 'User not found' });
-            }
-            res.json(updatedUser);
-        } catch (error) {
-            res.status(500).json({ error: 'Internal server error' });
+    try {
+        const { id } = req.params;
+        const { email, password } = req.body;
+
+        // Check if the user exists
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
         }
-    },
+
+        // Update user fields
+        if (email) {
+            user.email = email;
+        }
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
+
+        // Update the token to ensure it remains valid
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
+        user.token = token;
+
+        // Save the updated user
+        await user.save();
+
+        // Respond with success message and updated token
+        res.json({ message: 'User updated successfully', token });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+},
 
     // Delete a user by ID
     deleteUserById: async (req, res) => {
