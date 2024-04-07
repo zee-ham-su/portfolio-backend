@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    token: {
+        type: String // Store the JWT token as a string
+    },
     createdAt: {
         type: Date,
         default: Date.now
