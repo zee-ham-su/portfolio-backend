@@ -18,6 +18,10 @@ app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the blog API');
+});
+
 // Connect to MongoDB
 connectDB()
   .then(() => {
