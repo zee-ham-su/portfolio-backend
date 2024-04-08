@@ -1,12 +1,15 @@
-# Blog Post App
+# Blogging Platform Backend
 
+## Introduction
+
+This documentation provides an overview of the backend for our blogging platform. The backend is responsible for managing users, blog posts, comments, and authentication.
 This is a simple blog post app built with Node.js, Express.js, and MongoDB Atlas.
 
 ## Prerequisites
 
 Before running the app, make sure you have the following installed:
 
-- Node.js (version X.X.X)
+- Node.js (version 20.5.0)
 - MongoDB Atlas account
 
 ## Getting Started
@@ -20,7 +23,7 @@ Before running the app, make sure you have the following installed:
 2. Install the dependencies:
 
     ```bash
-    cd blog
+    cd Blog
     npm install
     ```
 
@@ -31,6 +34,8 @@ Before running the app, make sure you have the following installed:
 
       ```plaintext
       MONGODB_URI=your-mongodb-atlas-uri
+      JWT_SECRET=your jwt secret key here
+      PORT=port number
       ```
 
 4. Start the server:
@@ -39,14 +44,13 @@ Before running the app, make sure you have the following installed:
     npm start
     ```
 
-5. Open your browser and navigate to `http://localhost:3000` to access the app.
+5. Open your browser and navigate to `http://localhost:8000` to access the app.
 
 ## Features
 
-- User authentication (signup, login, logout)
+- User authentication (register, login, logout)
 - Create, read, update, and delete blog posts
 - Comment on blog posts
-- Like and dislike blog posts
 
 ## Contributing
 
