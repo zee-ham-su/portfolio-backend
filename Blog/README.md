@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This documentation provides an overview of the backend for our blogging platform. The backend is responsible for managing users, blog posts, comments, and authentication.
+This documentation provides an overview of the backend for my blogging platform. The backend is responsible for managing users, blog posts, comments, and authentication.
 This is a simple blog post app built with Node.js, Express.js, and MongoDB Atlas.
 
 ## Prerequisites
