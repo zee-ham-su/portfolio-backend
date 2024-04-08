@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CommentController = require('../controllers/CommentController');
+const CommentController = require('../controllers/commentController');
 
 // Route to get all comments
 router.get('/', CommentController.getAllComments);
