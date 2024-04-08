@@ -1,0 +1,20 @@
+# Exported from Render on 2024-04-08T15:07:51Z
+services:
+- type: web
+  name: portfolio-backend
+  runtime: node
+  repo: https://github.com/zee-ham-su/portfolio-backend
+  branch: Master
+  plan: free
+  envVars:
+  - key: JWT_SECRET
+    sync: false
+  - key: MONGODB_URI
+    sync: false
+  - key: PORT
+    sync: false
+  region: oregon
+  buildCommand: npm install
+  startCommand: npm start
+  rootDir: Blog
+version: "1"
