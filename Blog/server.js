@@ -19,7 +19,7 @@ app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the blog API');
+  res.send('Welcome to my blog API');
 });
 
 // Connect to MongoDB
