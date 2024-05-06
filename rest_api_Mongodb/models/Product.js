@@ -23,6 +23,9 @@ const productSchema = new mongoose.Schema({
         required: true,
         enum: ['Electronics', 'Accessories', 'Books', 'Food']
     }
-});
+}, {
+    timestamps: true
+}
+);
 
 module.exports = mongoose.model('Product', productSchema);
