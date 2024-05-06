@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const Product = require('./models/Product');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -19,8 +19,11 @@ mongoose.connection.on('error', (error) => {
 
 app.use(express.json());
 
-app.post('/', (req, res) => {
-    console.log(req.body);
-    res.send('hello world');
+app.post('/products', (req, res) => {
+    Product.create(req.body).then((NewProduct) => {
+        return res.status(201).json(NewProduct);
+    }).catch((error) => {
+        return res.status(500).json({ error: error.message })
+    });
 });
 
