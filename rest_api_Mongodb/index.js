@@ -7,9 +7,9 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    console.log('Welcome to my REST API server!');
-    res.json('Welcome to my REST API server!');
+app.post('/', (req, res) => {
+    console.log(req.body);
+    res.send('success');
 });
 
 app.listen(PORT, () => {
