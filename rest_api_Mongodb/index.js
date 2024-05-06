@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.post('/', (req, res) => {
     console.log(req.body);
-    res.send('success');
+    res.send('hello world');
 });
 
 app.listen(PORT, () => {
