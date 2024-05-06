@@ -19,11 +19,12 @@ mongoose.connection.on('error', (error) => {
 
 app.use(express.json());
 
-app.post('/products', (req, res) => {
-    Product.create(req.body).then((NewProduct) => {
-        return res.status(201).json(NewProduct);
-    }).catch((error) => {
-        return res.status(500).json({ error: error.message })
-    });
+app.post('/products', async (req, res) => {
+    try {
+        const newProduct = await Product.create(req.body)
+        return res.status(201).json(newProduct);
+    } catch (err) {
+        return res.status(500).json({ error: error.message });
+    }
 });
 
