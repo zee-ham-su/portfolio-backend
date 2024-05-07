@@ -71,12 +71,27 @@ app.put('/products/:id', async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(422).json({ error: 'Invalid product id' });
         }
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body);
-                res.json(updatedProduct);
 
-        if (!updatedProduct) {
+        if (!await Product.exists( {_id: req.params.id})) {
             return res.status(404).json({ error: 'Product not found' });
         }
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true } );
+        
+        res.json(updatedProduct);
+
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+app.delete('/products/:id', async (req, res) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(422).json({ error: 'Invalid product id' });
+        }
+        await Product.findByIdAndDelete(req.params.id);
+        return res.status(201).json({ message: 'Product deleted successfully' });
+        
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
