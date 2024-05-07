@@ -43,7 +43,7 @@ app.post('/products', async (req, res) => {
 
 app.get('/products', async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().select('id name price');
         res.status(200).json(products);
 
     } catch (err) {
