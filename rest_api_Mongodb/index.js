@@ -31,7 +31,7 @@ app.post('/products', async (req, res) => {
 
         if (!req.body.category) {
             return res.status(400).json({ error: 'category field is required' });
-        } else if (!['Electronics', 'Accessories', 'Books', 'Food'].includes(req.body.category)) {
+        } else if (!Product.schema.path('category').enumValues.includes(req.body.category)) {
             return res.status(400).json({ error: 'Invalid category' });
         }
         const newProduct = await Product.create(req.body)
