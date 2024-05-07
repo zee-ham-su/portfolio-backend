@@ -65,3 +65,19 @@ app.get('/products/:id', async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 });
+
+app.put('/products/:id', async (req, res) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(422).json({ error: 'Invalid product id' });
+        }
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body);
+                res.json(updatedProduct);
+
+        if (!updatedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
