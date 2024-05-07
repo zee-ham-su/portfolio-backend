@@ -21,6 +21,19 @@ app.use(express.json());
 
 app.post('/products', async (req, res) => {
     try {
+        if (!req.body.name) {
+            return res.status(400).json({ error: 'Name field is required' });
+        }
+
+        if (!req.body.price) {
+            return res.status(400).json({ error: 'price field is required' });
+        }
+
+        if (!req.body.category) {
+            return res.status(400).json({ error: 'category field is required' });
+        } else if (!['Electronics', 'Accessories', 'Books', 'Food'].includes(req.body.category)) {
+            return res.status(400).json({ error: 'Invalid category' });
+        }
         const newProduct = await Product.create(req.body)
         return res.status(201).json(newProduct);
     } catch (err) {
