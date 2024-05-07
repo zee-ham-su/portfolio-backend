@@ -43,9 +43,21 @@ app.post('/products', async (req, res) => {
 
 app.get('/products', async (req, res) => {
     try {
-        const products = await Product.find().select('id name price');
+        const products = await Product.find().select('-__v');
         res.status(200).json(products);
 
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/products/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id).select('-__v');
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.status(200).json(product);
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
