@@ -41,3 +41,12 @@ app.post('/products', async (req, res) => {
     }
 });
 
+app.get('/products', async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.status(200).json(products);
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
