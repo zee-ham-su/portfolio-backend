@@ -53,6 +53,9 @@ app.get('/products', async (req, res) => {
 
 app.get('/products/:id', async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(422).json({ error: 'Invalid product id' });
+        }
         const product = await Product.findById(req.params.id).select('-__v');
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
