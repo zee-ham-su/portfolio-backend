@@ -24,7 +24,7 @@ app.post('/products', async (req, res) => {
         const newProduct = await Product.create(req.body)
         return res.status(201).json(newProduct);
     } catch (err) {
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: err.message });
     }
 });
 
