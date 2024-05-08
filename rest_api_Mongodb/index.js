@@ -14,9 +14,10 @@ mongoose.connection.on('connected', () => {
 });
 mongoose.connection.on('error', (error) => {
     console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
 });
 
 app.use(express.json());
 
 app.use(require('./routes/productsRoute'));
+app.use('/categories', require('./routes/categoriesRoute'))
