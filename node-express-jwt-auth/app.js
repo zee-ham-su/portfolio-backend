@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
 
 const app = express();
 
@@ -11,22 +13,32 @@ app.set('view engine', 'ejs');
 
 // database connection
 
-const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb+srv://hamzasufian2014:hZ2j4i93ckRdHBrU@cluster0.ogwdwlq.mongodb.net/My_api', {
-  useUnifiedTopology: true
+const uri = "mongodb+srv://hamzasufian2014:hZ2j4i93ckRdHBrU@cluster0.ogwdwlq.mongodb.net/node_auth";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
 });
 
-mongoose.connection.on('connected', () => {
-    console.log('DB connected');
-    app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
-    });
-});
-mongoose.connection.on('error', (error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1);
-});
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
 
 // routes
 app.get('/', (req, res) => res.render('home'));
