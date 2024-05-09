@@ -14,7 +14,6 @@ app.set('view engine', 'ejs');
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect('mongodb+srv://hamzasufian2014:hZ2j4i93ckRdHBrU@cluster0.ogwdwlq.mongodb.net/My_api', {
-  useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
