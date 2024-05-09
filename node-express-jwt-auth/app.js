@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -40,6 +40,12 @@ async function run() {
 run().catch(console.dir);
 
 
+app.listen(3000, () => {
+  console.log('server started on http://localhost:3000');
+});
+
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
+
+app.use('/api', authRoutes);
