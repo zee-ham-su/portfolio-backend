@@ -28,7 +28,7 @@ userSchema.post('save', function(doc, next) {
 });
 
 // fire a function before doc saved to db
-userSchema.pre('save', function(doc, next) {
+userSchema.pre('save', function(next) {
     console.log('user about to be created & saved', this);
     next();
 });
