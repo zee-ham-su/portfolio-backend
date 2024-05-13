@@ -37,7 +37,8 @@ app.use('/api', authRoutes);
 // cookies
 
 app.get('/set-cookies', (req, res) => {
-
+  res.setHeader('Set-Cookie', 'newUser=true');
+  res.send('you got the cookie!')
 });
 
 app.get('/read-cookies', (req, res) => {
