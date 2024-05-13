@@ -11,6 +11,7 @@ const uri = "mongodb+srv://hamzasufian2014:hZ2j4i93ckRdHBrU@cluster0.ogwdwlq.mon
 // Middleware
 app.use(express.static('public'));
 app.use(express.json());
+app.use(cookieParser());
 
 // View engine
 app.set('view engine', 'ejs');
@@ -39,7 +40,8 @@ app.use('/api', authRoutes);
 // cookies
 
 app.get('/set-cookies', (req, res) => {
-  res.setHeader('Set-Cookie', 'newUser=true');
+  //res.setHeader('Set-Cookie', 'newUser=true');
+  res.cookie('newUser', false);
   res.send('you got the cookie!')
 });
 
