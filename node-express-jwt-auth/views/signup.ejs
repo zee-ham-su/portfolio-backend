@@ -15,6 +15,7 @@
 
         <script>
             const form = document.querySelector('form');
+            const emailError = document.querySelector('.email.error');
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -31,6 +32,8 @@
                     });
                     const data = await res.json();
                     console.log(data);
+                    if (data.errors) {
+
                 }
                 catch (err) {
                     console.log(err);
