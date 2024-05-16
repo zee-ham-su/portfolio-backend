@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const uri = "mongodb+srv://hamzasufian2014:hZ2j4i93ckRdHBrU@cluster0.ogwdwlq.mongodb.net/auth_node";
 
-// Middleware
+// Middleware configuration
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
